@@ -1,0 +1,21 @@
+{
+    "name": "vilija19/db_component",
+    "description": "test component for interact with DataBase",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Vilija19\\DbComponent\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alex",
+            "email": "billibons777@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "aigletter/contracts": "dev-master"
+    }
+}
