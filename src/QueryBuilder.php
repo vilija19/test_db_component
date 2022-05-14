@@ -1,6 +1,6 @@
 <?php
 
-namespace Vilija19\db_component;
+namespace Vilija19\DbComponent;
 
 use Aigletter\Contracts\Builder\BuilderInterface;
 use Aigletter\Contracts\Builder\QueryInterface;

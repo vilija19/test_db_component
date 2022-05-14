@@ -1,6 +1,6 @@
 <?php
 
-namespace Vilija19\db_component;
+namespace Vilija19\DbComponent;
 
 class Query implements \Aigletter\Contracts\Builder\QueryInterface
 {
@@ -34,7 +34,7 @@ class Query implements \Aigletter\Contracts\Builder\QueryInterface
         $i = 0;
         foreach ($assocArray as $key => $value) {
             $sqlSubStr .= $i ? $separator : '';            
-            $sqlSubStr .= $key . '=' . $value;
+            $sqlSubStr .= $key . '="' . $value . '"';
             $i++;
         }
         return $sqlSubStr;
@@ -46,13 +46,35 @@ class Query implements \Aigletter\Contracts\Builder\QueryInterface
         $start = $this->offset ? (int)$this->offset : 0;            
         $limit = $this->limit ? (int)$this->limit : 20; 
 
-        $sql =  'SELECT ' . implode(',' , $this->select);
-        $sql .= ' FROM ' . $this->table . ' WHERE ';
-        $sql .= $this->assocToStr($this->where, ' AND ');
-        $sql .= ' ORDER BY ';
-        $sql .= $this->assocToStr($this->order, ',');
-        $sql .= ' LIMIT ' . $start . "," . $limit;
-
+        if ($this->select) {
+            $sql .=  'SELECT ' . implode(',' , $this->select);
+        }else{
+            $sql .=  'SELECT * ';
+        }
+        $sql .= ' FROM ' . $this->table .' WHERE ';     
+        if ($this->where) {
+            $i = 0;
+            foreach ($this->where as $key => $value) {
+                $sql .= $i ? ' AND ' : '';            
+                $sql .= $key . '="' . $value . '"';
+                $i++;
+            }            
+        }else{
+            $sql .= ' 1 ';
+        }
+        if ($this->order) {
+            $sql .= ' ORDER BY ';
+            $i = 0;
+            foreach ($this->order as $key => $value) {
+                $sql .= $i ? ',' : '';            
+                $sql .= $key . ' ' . $value ;
+                $i++;
+            }            
+        }
+        if ($this->limit) {
+            $sql .= ' LIMIT ' . $start . "," . $limit;
+        }
+        echo '$sqlString is: ' . $sql . PHP_EOL;
         return $sql;
     }    
     

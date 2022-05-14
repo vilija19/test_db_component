@@ -1,6 +1,6 @@
 <?php
 
-namespace Vilija19\db_component;
+namespace Vilija19\DbComponent;
 
 use Aigletter\Contracts\Builder\DbInterface;
 use Aigletter\Contracts\Builder\QueryInterface;
@@ -17,8 +17,8 @@ class DbComponent implements DbInterface
     public function one(QueryInterface $query): object
     {
         $sqlStr = $query->toSql();
-        $res = $this->conn->query($sqlStr);
-        return $res->fetch_assoc();
+        $res = $this->conn->querySingle($sqlStr, true);
+        return (object)$res;
     }
 
     public function all(QueryInterface $query): array
@@ -26,7 +26,7 @@ class DbComponent implements DbInterface
         $outData = array();
         $sqlStr = $query->toSql();
         $res = $this->conn->query($sqlStr);
-        while ($row = $res->fetch_assoc()) {
+        while ($row = $res->fetchArray(SQLITE3_ASSOC)) {
             $outData[] = $row;
         }
         return $outData;                
